@@ -6,7 +6,7 @@ class CachedImage extends StatelessWidget {
   const CachedImage({
     super.key,
     required this.url,
-    this.size = 80,
+    this.size = 100,
     this.name,
     this.cacheManager,
   });
@@ -28,7 +28,7 @@ class CachedImage extends StatelessWidget {
         Config(
           'CachedImageKey',
           stalePeriod: const Duration(days: 1),
-          maxNrOfCacheObjects: 20,
+          maxNrOfCacheObjects: 10,
         ),
       );
 

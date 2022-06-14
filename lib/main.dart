@@ -36,15 +36,16 @@ class HomePage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
+          final no = index % 20;
           return Center(
             child: CachedImage(
               url:
-                  'https://avatars.githubusercontent.com/u/13707135?v=4&index=${index + 1}',
-              name: '${index + 1}',
+                  'https://avatars.githubusercontent.com/u/13707135?v=4&index=${no + 1}',
+              name: '${no + 1}',
             ),
           );
         },
-        itemCount: 20,
+        itemCount: 200,
       ),
     );
   }
