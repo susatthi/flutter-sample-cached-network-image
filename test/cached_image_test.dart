@@ -27,7 +27,7 @@ void main() {
         expect(find.byType(CachedImage), findsOneWidget);
 
         // プログレスバーが表示しているはず
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        // expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
         // 画像は表示されていないはず
         expect(find.byKey(state.imageKey), findsNothing);

@@ -9,6 +9,7 @@ class CachedImage extends StatefulWidget {
     this.size = 100,
     this.name,
     this.cacheManager,
+    this.useCache = true,
   });
 
   /// 画像のURL
@@ -23,27 +24,55 @@ class CachedImage extends StatefulWidget {
   /// CacheManager
   final CacheManager? cacheManager;
 
+  /// キャッシュを使うかどうか
+  final bool useCache;
+
   @override
   CachedImageState createState() => CachedImageState();
 }
 
 @visibleForTesting
 class CachedImageState extends State<CachedImage> {
-  @visibleForTesting
   final imageKey = GlobalKey(debugLabel: 'CachedImage');
 
-  @visibleForTesting
   ImageProvider<Object>? get imageProvider => _imageProvider;
   ImageProvider<Object>? _imageProvider;
 
-  @visibleForTesting
   dynamic get error => _error;
   dynamic _error;
 
+  /// CacheManager
+  CacheManager get _defaultCacheManager => CacheManager(
+        Config(
+          'CachedImageKey',
+          stalePeriod: const Duration(days: 1),
+          maxNrOfCacheObjects: 20,
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
+    if (!widget.useCache) {
+      return Stack(
+        children: [
+          Image(
+            key: imageKey,
+            image: NetworkImage(widget.url),
+            // loadingBuilder: (context, child, progress) {
+            //   if (progress == null) {
+            //     return child;
+            //   }
+            //   return const Center(
+            //     child: CircularProgressIndicator(),
+            //   );
+            // },
+          ),
+          _ImageName(name: widget.name),
+        ],
+      );
+    }
     return CachedNetworkImage(
-      cacheManager: widget.cacheManager,
+      cacheManager: widget.cacheManager ?? _defaultCacheManager,
       height: widget.size,
       width: widget.size,
       imageUrl: widget.url,
@@ -55,28 +84,13 @@ class CachedImageState extends State<CachedImage> {
               key: imageKey,
               image: imageProvider,
             ),
-            Positioned(
-              right: 2,
-              bottom: 2,
-              child: Text(
-                widget.name ?? '',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            _ImageName(name: widget.name),
           ],
         );
       },
-      placeholder: (context, url) {
-        return Row(
-          children: const [
-            Spacer(),
-            CircularProgressIndicator(),
-            Spacer(),
-          ],
-        );
-      },
+      // placeholder: (context, url) => const Center(
+      //   child: CircularProgressIndicator(),
+      // ),
       errorWidget: (context, url, dynamic error) {
         _error = error;
         return Icon(
@@ -84,6 +98,26 @@ class CachedImageState extends State<CachedImage> {
           size: widget.size,
         );
       },
+    );
+  }
+}
+
+class _ImageName extends StatelessWidget {
+  const _ImageName({this.name});
+
+  final String? name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 2,
+      bottom: 2,
+      child: Text(
+        name ?? '',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

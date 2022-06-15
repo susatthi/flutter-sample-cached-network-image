@@ -37,8 +37,8 @@ class HomePage extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           // キャッシュから取得するのかネットワークから取得するのか動きを見やすくするために
-          // URL毎にキャッシュするのでクエリを付けて20種類のURLにする
-          final no = index % 20;
+          // URL毎にキャッシュするのでクエリを付けて40種類のURLにする
+          final no = index % 40;
           return Center(
             child: CachedImage(
               url:
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
             ),
           );
         },
-        itemCount: 200,
+        itemCount: 400,
       ),
     );
   }
