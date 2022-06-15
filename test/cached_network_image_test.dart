@@ -8,13 +8,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 void main() {
-  testWidgets('The image should be displayed', (tester) async {
+  testWidgets('画像が表示されるはず', (tester) async {
     await tester.runAsync(() async {
       ImageProvider? receiveImageProvider;
-
       await tester.pumpWidget(
         CachedNetworkImage(
-          imageUrl: 'dummy url',
+          imageUrl: 'https://avatars.githubusercontent.com/u/13707135?v=4',
           cacheManager: MockCacheManager(),
           imageBuilder: (context, imageProvider) {
             receiveImageProvider = imageProvider;
@@ -24,9 +23,7 @@ void main() {
           },
         ),
       );
-      expect(receiveImageProvider, isNull);
-
-      // Wait for the image to be loaded.
+      // 画像が読み込まれるまで待つ
       await Future<void>.delayed(const Duration(seconds: 1));
       await tester.pump();
       expect(receiveImageProvider, isNotNull);
@@ -47,8 +44,8 @@ class MockCacheManager extends Mock implements DefaultCacheManager {
     int? maxWidth,
   }) async* {
     yield FileInfo(
-      fileSystem
-          .file('./test/assets/13707135.png'), // Return your image file path
+      // ローカルのファイルを読み込んで返す
+      fileSystem.file('./test/assets/13707135.png'),
       FileSource.Cache,
       DateTime(2050),
       url,
