@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class CachedImage extends StatelessWidget {
+class CachedImage extends StatefulWidget {
   const CachedImage({
     super.key,
     required this.url,
@@ -23,31 +23,43 @@ class CachedImage extends StatelessWidget {
   /// CacheManager
   final CacheManager? cacheManager;
 
-  /// CacheManager
-  CacheManager get _defaultCacheManager => CacheManager(
-        Config(
-          'CachedImageKey',
-          stalePeriod: const Duration(days: 1),
-          maxNrOfCacheObjects: 10,
-        ),
-      );
+  @override
+  CachedImageState createState() => CachedImageState();
+}
+
+@visibleForTesting
+class CachedImageState extends State<CachedImage> {
+  @visibleForTesting
+  final imageKey = GlobalKey(debugLabel: 'CachedImage');
+
+  @visibleForTesting
+  ImageProvider<Object>? get imageProvider => _imageProvider;
+  ImageProvider<Object>? _imageProvider;
+
+  @visibleForTesting
+  dynamic get error => _error;
+  dynamic _error;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      cacheManager: cacheManager ?? _defaultCacheManager,
-      height: size,
-      width: size,
-      imageUrl: url,
+      cacheManager: widget.cacheManager,
+      height: widget.size,
+      width: widget.size,
+      imageUrl: widget.url,
       imageBuilder: (context, imageProvider) {
+        _imageProvider = imageProvider;
         return Stack(
           children: [
-            Image(image: imageProvider),
+            Image(
+              key: imageKey,
+              image: imageProvider,
+            ),
             Positioned(
               right: 2,
               bottom: 2,
               child: Text(
-                name ?? '',
+                widget.name ?? '',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -66,9 +78,10 @@ class CachedImage extends StatelessWidget {
         );
       },
       errorWidget: (context, url, dynamic error) {
+        _error = error;
         return Icon(
           Icons.error,
-          size: size,
+          size: widget.size,
         );
       },
     );

@@ -36,6 +36,8 @@ class HomePage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
+          // キャッシュから取得するのかネットワークから取得するのか動きを見やすくするために
+          // URL毎にキャッシュするのでクエリを付けて20種類のURLにする
           final no = index % 20;
           return Center(
             child: CachedImage(
