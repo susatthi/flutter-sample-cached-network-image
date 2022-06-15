@@ -24,13 +24,11 @@ void main() {
           },
         ),
       );
-
       expect(receiveImageProvider, isNull);
 
       // Wait for the image to be loaded.
-      await Future<void>.delayed(const Duration(milliseconds: 1000));
+      await Future<void>.delayed(const Duration(seconds: 1));
       await tester.pump();
-
       expect(receiveImageProvider, isNotNull);
     });
   });
