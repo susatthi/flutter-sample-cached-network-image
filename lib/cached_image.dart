@@ -10,6 +10,7 @@ class CachedImage extends StatefulWidget {
     this.name,
     this.cacheManager,
     this.useCache = true,
+    this.showLoading = false,
   });
 
   /// 画像のURL
@@ -18,7 +19,7 @@ class CachedImage extends StatefulWidget {
   /// サイズ
   final double size;
 
-  /// 名前
+  /// 画像名
   final String? name;
 
   /// CacheManager
@@ -26,6 +27,9 @@ class CachedImage extends StatefulWidget {
 
   /// キャッシュを使うかどうか
   final bool useCache;
+
+  /// ローディング表示するかどうか
+  final bool showLoading;
 
   @override
   CachedImageState createState() => CachedImageState();
@@ -58,14 +62,16 @@ class CachedImageState extends State<CachedImage> {
           Image(
             key: imageKey,
             image: NetworkImage(widget.url),
-            // loadingBuilder: (context, child, progress) {
-            //   if (progress == null) {
-            //     return child;
-            //   }
-            //   return const Center(
-            //     child: CircularProgressIndicator(),
-            //   );
-            // },
+            loadingBuilder: widget.showLoading
+                ? (context, child, progress) {
+                    if (progress == null) {
+                      return child;
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                : null,
           ),
           _ImageName(name: widget.name),
         ],
@@ -88,9 +94,11 @@ class CachedImageState extends State<CachedImage> {
           ],
         );
       },
-      // placeholder: (context, url) => const Center(
-      //   child: CircularProgressIndicator(),
-      // ),
+      placeholder: widget.showLoading
+          ? (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              )
+          : null,
       errorWidget: (context, url, dynamic error) {
         _error = error;
         return Icon(
