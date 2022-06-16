@@ -2,7 +2,7 @@
 
 # cached_network_image サンプルアプリ
 
-[cached_network_image 3.2.1](https://pub.dev/packages/cached_network_image) のサンプルのメモアプリ
+[cached_network_image 3.2.1](https://pub.dev/packages/cached_network_image) のサンプル
 
 キャッシュあり|キャッシュ無し
 --|--
