@@ -1,16 +1,19 @@
-# flutter_sample_cached_network_image
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-purple" alt="MIT"></a>
 
-A new Flutter project.
+# cached_network_image サンプルアプリ
 
-## Getting Started
+[cached_network_image 3.2.1](https://pub.dev/packages/cached_network_image) のサンプルのメモアプリ
 
-This project is a starting point for a Flutter application.
+キャッシュあり|キャッシュ無し
+--|--
+![キャッシュあり](https://user-images.githubusercontent.com/13707135/173962892-26a8d820-50a5-48eb-9436-4c677dd90b8d.gif)|![キャッシュ無し](https://user-images.githubusercontent.com/13707135/173962904-f3efd223-47c5-44b2-bc38-7b3d14f6757b.gif)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ポイント
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- cached_network_image のバージョンは 3.2.1
+- Widget テストを実装
+
+## ライセンス
+
+MIT
